@@ -27,13 +27,14 @@ class AppServiceProvider extends ServiceProvider
     protected function bootMeilisearch()
     {
         $this->app->singleton(
-            'meilisearch', function () {
-            $config = config('scout.meilisearch');
+            'meilisearch',
+            function () {
+                $config = config('scout.meilisearch');
 
-            return (
-            new MeiliSearch($config['host'], $config['key'])
-            )->index('products');
-        }
+                return (
+                new MeiliSearch($config['host'], $config['key'])
+                )->index('products');
+            }
         );
     }
 }

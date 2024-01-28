@@ -23,7 +23,7 @@ class AuthConfirmRegisterNotification extends Notification
         $code = Str::random(50);
         Cache::put('register:' . $code, $notifiable->id);
         $url = route('confirm', ['code' => $code]);
-        return (new MailMessage)
+        return (new MailMessage())
             ->greeting(__('content.confirm_mail_letter.greeting'))
             ->salutation(__('content.confirm_mail_letter.salutation'))
             ->action('Click his', $url);
