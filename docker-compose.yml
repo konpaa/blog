@@ -54,9 +54,22 @@ services:
             - '${FORWARD_MAILHOG_DASHBOARD_PORT:-8025}:8025'
         networks:
             - sail
+    meilisearch:
+        image: "getmeili/meilisearch:latest"
+        volumes:
+            - 'sailmeilisearch:/data.ms'
+        ports: [ '7700:7700' ]
+        networks:
+            - sail
+        healthcheck:
+            test: [ "CMD", "wget", "--no-verbose", "--spider",  "http://localhost:7700/health" ]
+            retries: 3
+            timeout: 5s
 networks:
     sail:
         driver: bridge
 volumes:
     sail-mysql:
+        driver: local
+    sailmeilisearch:
         driver: local
