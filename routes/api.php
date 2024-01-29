@@ -26,4 +26,6 @@ Route::prefix('auth')->group(function () {
 Route::prefix('profile')->middleware(['auth:sanctum'])->group(function () {
     Route::get('self', [ProfileController::class, 'self']);
     Route::patch('self', [ProfileController::class, 'update']);
+    Route::post('upload-files', [ProfileController::class, 'uploadFiles']);
+    Route::delete('upload-files/{id}', [ProfileController::class, 'deleteFiles']);
 });

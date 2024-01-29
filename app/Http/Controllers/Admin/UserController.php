@@ -37,9 +37,11 @@ class UserController extends Controller
         return UserResource::collection($query->paginate());
     }
 
-    public function show(User $user)
+    public function show($userId)
     {
-        $user->load('roles');
+        $user = $this->query()->findOrFail($userId);
+
+        $user->load(['roles', 'media']);
         return new UserResource($user);
     }
 }

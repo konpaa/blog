@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ProfileImageType;
 use App\Traits\Searchable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -9,9 +10,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, HasMedia
 {
     use HasApiTokens;
     use HasFactory;
@@ -19,6 +22,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasUuids;
     use HasRoles;
     use Searchable;
+    use InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.
@@ -58,5 +62,11 @@ class User extends Authenticatable implements MustVerifyEmail
             'name' => $this->name,
             'email' => $this->email,
         ];
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection(ProfileImageType::PREVIEW->value)->singleFile();
+        $this->addMediaCollection(ProfileImageType::ADDITION->value);
     }
 }
